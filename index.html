@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Proposal - Element BC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0f0f0f;
+            --grey-900: #1a1a1a;
+            --grey-800: #262626;
+            --grey-700: #404040;
+            --grey-600: #525252;
+            --grey-500: #737373;
+            --grey-400: #a3a3a3;
+            --grey-300: #d4d4d4;
+            --grey-200: #e5e5e5;
+            --grey-100: #f5f5f5;
+            --grey-50: #fafafa;
+            --white: #ffffff;
+            
+            --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.08), 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.04);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            background: var(--grey-100);
+            color: var(--grey-700);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Cover */
+        .cover {
+            background: var(--black);
+            color: var(--white);
+            padding: 6rem 2rem;
+            text-align: center;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.02) 0%, transparent 40%);
+        }
+
+        .cover-content {
+            position: relative;
+            max-width: 700px;
+        }
+
+        .cover-badge {
+            display: inline-block;
+            background: var(--grey-800);
+            border: 1px solid var(--grey-700);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            color: var(--grey-300);
+        }
+
+        .cover h1 {
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+        }
+
+        .cover-subtitle {
+            font-size: 1.1rem;
+            color: var(--grey-400);
+            margin-bottom: 3rem;
+        }
+
+        .cover-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--grey-800);
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--grey-500);
+            margin-bottom: 0.25rem;
+        }
+
+        .meta-value {
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .meta-value a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--white);
+            margin: -3rem auto 3rem;
+            max-width: 900px;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            padding: 2.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .toc h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .toc-item:hover {
+            background: var(--grey-100);
+        }
+
+        .toc-num {
+            width: 24px;
+            height: 24px;
+            background: var(--grey-100);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--grey-600);
+            flex-shrink: 0;
+        }
+
+        .toc-item:hover .toc-num {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .toc-text {
+            font-size: 0.85rem;
+            color: var(--grey-600);
+        }
+
+        /* Section */
+        .section {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-num {
+            width: 36px;
+            height: 36px;
+            background: var(--black);
+            color: var(--white);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: -0.02em;
+        }
+
+        .section p {
+            color: var(--grey-600);
+            margin-bottom: 1rem;
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: var(--grey-50);
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            font-size: 0.9rem;
+            color: var(--grey-600);
+            margin: 0;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--grey-900) 0%, var(--black) 100%);
+            color: var(--white);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .highlight-box p, .highlight-box li {
+            font-size: 0.9rem;
+            color: var(--grey-300);
+            margin: 0;
+        }
+
+        .highlight-box ul {
+            list-style: none;
+            margin-top: 0.75rem;
+        }
+
+        .highlight-box li {
+            padding: 0.35rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .highlight-box li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--grey-500);
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 700px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .col-card {
+            background: var(--grey-50);
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+        }
+
+        .col-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--grey-500);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--grey-200);
+        }
+
+        .item {
+            padding: 0.85rem 0;
+            border-bottom: 1px solid var(--grey-200);
+        }
+
+        .item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .item:first-of-type {
+            padding-top: 0;
+        }
+
+        .item h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 0.2rem;
+        }
+
+        .item p {
+            font-size: 0.85rem;
+            color: var(--grey-500);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Scope Card */
+        .scope-card {
+            background: var(--grey-50);
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            margin-bottom: 1rem;
+            transition: all 0.25s ease;
+        }
+
+        .scope-card:hover {
+            border-color: var(--grey-300);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .scope-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .scope-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .scope-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--black);
+            color: var(--white);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .scope-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--white);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .scope-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 0.2rem;
+        }
+
+        .scope-subtitle {
+            font-size: 0.85rem;
+            color: var(--grey-500);
+        }
+
+        .deliverables {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .deliverable {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.65rem 0.85rem;
+            background: var(--white);
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            color: var(--grey-600);
+            transition: all 0.2s ease;
+        }
+
+        .deliverable:hover {
+            border-color: var(--grey-300);
+            background: var(--white);
+        }
+
+        .deliverable-check {
+            width: 16px;
+            height: 16px;
+            background: var(--black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .deliverable-check svg {
+            width: 9px;
+            height: 9px;
+            stroke: var(--white);
+            stroke-width: 3;
+        }
+
+        .deliverable strong {
+            color: var(--black);
+            font-weight: 600;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin: 1.5rem 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--grey-50);
+            border: 1px solid var(--grey-200);
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .timeline-item:hover {
+            border-color: var(--grey-300);
+            background: var(--white);
+        }
+
+        .timeline-item.highlight {
+            background: var(--black);
+            border-color: var(--black);
+        }
+
+        .timeline-phase {
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .timeline-item.highlight .timeline-phase {
+            color: var(--white);
+        }
+
+        .timeline-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .timeline-badge {
+            background: var(--grey-200);
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--grey-600);
+        }
+
+        .timeline-item.highlight .timeline-badge {
+            background: var(--grey-800);
+            color: var(--white);
+        }
+
+        /* Investment */
+        .investment-section {
+            background: var(--black);
+            color: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .investment-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .investment-header h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .investment-header p {
+            color: var(--grey-400);
+            font-size: 0.9rem;
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 700px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-card {
+            background: var(--grey-900);
+            border: 1px solid var(--grey-800);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            position: relative;
+            transition: all 0.25s ease;
+        }
+
+        .option-card:hover {
+            border-color: var(--grey-700);
+            transform: translateY(-2px);
+        }
+
+        .option-card.featured {
+            border-color: var(--white);
+            background: var(--grey-800);
+        }
+
+        .option-badge {
+            position: absolute;
+            top: -10px;
+            right: 1.5rem;
+            background: var(--white);
+            color: var(--black);
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+        }
+
+        .option-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--grey-500);
+            margin-bottom: 0.5rem;
+        }
+
+        .option-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .option-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.25rem;
+        }
+
+        .option-timeline {
+            font-size: 0.8rem;
+            color: var(--grey-500);
+            margin-bottom: 1.5rem;
+        }
+
+        .option-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-features li {
+            font-size: 0.8rem;
+            padding: 0.4rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+            color: var(--grey-400);
+        }
+
+        .option-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--grey-500);
+            font-weight: bold;
+        }
+
+        .option-divider {
+            height: 1px;
+            background: var(--grey-700);
+            margin: 1rem 0;
+        }
+
+        .option-extra-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--grey-500);
+            margin-bottom: 0.75rem;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .payment-card {
+            background: var(--grey-900);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .payment-percent {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1;
+        }
+
+        .payment-milestone {
+            font-size: 0.8rem;
+            color: var(--grey-500);
+            margin-top: 0.5rem;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            background: var(--grey-50);
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+        }
+
+        .feature-card h4 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--grey-500);
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.45rem 0;
+            font-size: 0.85rem;
+            color: var(--grey-600);
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            color: var(--black);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* Terms */
+        .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .terms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .term-card {
+            background: var(--grey-50);
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+        }
+
+        .term-card h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 0.5rem;
+        }
+
+        .term-card p, .term-card li {
+            font-size: 0.82rem;
+            color: var(--grey-500);
+            line-height: 1.6;
+        }
+
+        .term-card ul {
+            list-style: none;
+        }
+
+        .term-card li {
+            padding: 0.25rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .term-card li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--grey-400);
+        }
+
+        /* Steps */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 800px) {
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .step-card {
+            background: var(--grey-50);
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.25s ease;
+        }
+
+        .step-card:hover {
+            border-color: var(--grey-300);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: var(--black);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 0.75rem;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 0.25rem;
+        }
+
+        .step-desc {
+            font-size: 0.82rem;
+            color: var(--grey-500);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        .footer-message {
+            font-size: 1.1rem;
+            color: var(--grey-400);
+            max-width: 550px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .footer-divider {
+            width: 50px;
+            height: 2px;
+            background: var(--grey-800);
+            margin: 0 auto 2rem;
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .contact-card {
+            background: var(--grey-900);
+            border: 1px solid var(--grey-800);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            min-width: 160px;
+        }
+
+        .contact-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--grey-600);
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-value {
+            font-weight: 600;
+        }
+
+        .contact-value a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .contact-value a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-brand {
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--grey-800);
+        }
+
+        .footer-logo {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .footer-link {
+            font-size: 0.8rem;
+            color: var(--grey-500);
+        }
+
+        .footer-link a {
+            color: var(--grey-400);
+            text-decoration: none;
+        }
+
+        /* Inspiration */
+        .inspiration-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 700px) {
+            .inspiration-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .inspiration-card {
+            background: var(--grey-50);
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .inspiration-card:hover {
+            border-color: var(--grey-300);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .inspiration-header {
+            background: var(--black);
+            color: var(--white);
+            padding: 1rem 1.25rem;
+        }
+
+        .inspiration-header h5 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        .inspiration-url {
+            font-size: 0.75rem;
+            color: var(--grey-400);
+        }
+
+        .inspiration-body {
+            padding: 1.25rem;
+        }
+
+        .inspiration-body p {
+            font-size: 0.85rem;
+            color: var(--grey-600);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .inspiration-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: var(--grey-200);
+            padding: 0.25rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--grey-600);
+        }
+
+        .inspiration-link {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--black);
+            text-decoration: none;
+        }
+
+        .inspiration-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Note */
+        .note {
+            background: var(--grey-50);
+            border-left: 3px solid var(--grey-300);
+            padding: 0.85rem 1rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 0.82rem;
+            color: var(--grey-500);
+            margin-top: 1rem;
+        }
+
+        .note strong {
+            color: var(--grey-700);
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover -->
+    <div class="cover">
+        <div class="cover-content">
+            <div class="cover-badge">Website Proposal</div>
+            <h1>Website Development</h1>
+            <p class="cover-subtitle">Custom Web Solutions Built on Your Brand</p>
+            <div class="cover-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Prepared for</div>
+                    <div class="meta-value">Element BC</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Prepared by</div>
+                    <div class="meta-value">Matthew Turner</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Website</div>
+                    <div class="meta-value"><a href="https://matt-codes.webflow.io">matt-codes.webflow.io</a></div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Date</div>
+                    <div class="meta-value">January 2026</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="container">
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <div class="toc-grid">
+                <div class="toc-item"><span class="toc-num">01</span><span class="toc-text">Executive Summary</span></div>
+                <div class="toc-item"><span class="toc-num">02</span><span class="toc-text">Scope of Work</span></div>
+                <div class="toc-item"><span class="toc-num">03</span><span class="toc-text">Design Inspiration</span></div>
+                <div class="toc-item"><span class="toc-num">04</span><span class="toc-text">Project Timeline</span></div>
+                <div class="toc-item"><span class="toc-num">05</span><span class="toc-text">Investment &amp; Options</span></div>
+                <div class="toc-item"><span class="toc-num">06</span><span class="toc-text">What's Included</span></div>
+                <div class="toc-item"><span class="toc-num">07</span><span class="toc-text">Terms &amp; Conditions</span></div>
+                <div class="toc-item"><span class="toc-num">08</span><span class="toc-text">Next Steps</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-num">01</div>
+                <h2 class="section-title">Executive Summary</h2>
+            </div>
+            <div class="info-box">
+                <h4>Vision</h4>
+                <p>Create a bespoke website that reflects Element BC's brand identity, showcases your portfolio effectively, and provides an exceptional user experience across all devices.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Project Overview</h4>
+                <ul>
+                    <li><strong>Custom Design</strong> — Tailored to your brand guidelines and visual preferences</li>
+                    <li><strong>5–6 Page Website</strong> — Home, About, Portfolio, Services, and Contact</li>
+                    <li><strong>Fully Responsive</strong> — Optimised for desktop, tablet, and mobile devices</li>
+                    <li><strong>Built in Webflow</strong> — Modern, maintainable, and easy to update</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scope of Work -->
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-num">02</div>
+                <h2 class="section-title">Scope of Work</h2>
+            </div>
+            <p>A comprehensive website designed and built to elevate Element BC's digital presence.</p>
+
+            <div class="scope-card">
+                <div class="scope-header">
+                    <div class="scope-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="9" y1="21" x2="9" y2="9"></line>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="scope-title">Website Pages</h3>
+                        <p class="scope-subtitle">5–6 professionally designed pages tailored to your needs</p>
+                    </div>
+                </div>
+                <div class="deliverables">
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Home</strong> — Hero, services, projects, testimonials &amp; CTAs</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>About</strong> — Company story, team &amp; values</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Portfolio</strong> — Project gallery showcasing your work</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Portfolio Item</strong> — Individual project case studies</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Services</strong> — Detailed breakdown of offerings</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Contact</strong> — Enquiry form &amp; contact details</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scope-card">
+                <div class="scope-header">
+                    <div class="scope-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                            <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                            <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="scope-title">Page Features</h3>
+                        <p class="scope-subtitle">Essential elements included across your website</p>
+                    </div>
+                </div>
+                <div class="deliverables">
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Client Logos</strong> — Showcase brands you've worked with</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Testimonials</strong> — Social proof from clients</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Featured Projects</strong> — Highlight your best work</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Contact Forms</strong> — Easy enquiry submission</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Call-to-Action Buttons</strong> — Strategic conversion points</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Structured Content</strong> — SEO-friendly organisation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scope-card">
+                <div class="scope-header">
+                    <div class="scope-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="scope-title">Technical &amp; Additional Items</h3>
+                        <p class="scope-subtitle">Everything you need for a complete, functional website</p>
+                    </div>
+                </div>
+                <div class="deliverables">
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Fully Responsive</strong> — Perfect display on all devices</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Legal Pages</strong> — T&amp;Cs, Privacy, Cookie Policy</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Google Analytics</strong> — GA4 setup and integration</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Search Console</strong> — Configured for visibility</span>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                        <span><strong>Training Videos</strong> — Update content independently</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>Design Approach</h4>
+                <p>The design will be created based on your brand guidelines, combined with inspiration from websites you love. I'll create something unique and tailored specifically to Element BC's brand identity.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Design Inspiration -->
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-num">03</div>
+                <h2 class="section-title">Website Design Inspiration</h2>
+            </div>
+            <p>Below are carefully curated examples of modern construction and design websites that showcase exceptional user experience, visual storytelling, and contemporary web development practices. Each offers valuable inspiration that can be adapted to create something uniquely tailored for Element BC.</p>
+
+            <div class="info-box">
+                <h4>What We're Looking For</h4>
+                <p>These examples highlight excellence in visual hierarchy, project showcases, clean navigation, animation strategies, and professional tone. We'll cherry-pick the best elements and reimagine them specifically for your brand and audience.</p>
+            </div>
+
+            <div class="inspiration-grid">
+                <div class="inspiration-card">
+                    <div class="inspiration-header">
+                        <h5>OH Architecture</h5>
+                        <div class="inspiration-url">oharchitecture.com.au</div>
+                    </div>
+                    <div class="inspiration-body">
+                        <p>Australian architecture firm with stunning full-bleed imagery, elegant typography, and seamless project transitions. Excellent example of letting high-quality work speak for itself.</p>
+                        <div class="inspiration-tags">
+                            <span class="tag">Full-bleed Images</span>
+                            <span class="tag">Elegant Typography</span>
+                            <span class="tag">Minimal</span>
+                        </div>
+                        <a href="https://www.oharchitecture.com.au/" target="_blank" class="inspiration-link">Visit Site →</a>
+                    </div>
+                </div>
+
+                <div class="inspiration-card">
+                    <div class="inspiration-header">
+                        <h5>111 West 57th</h5>
+                        <div class="inspiration-url">111w57.com</div>
+                    </div>
+                    <div class="inspiration-body">
+                        <p>Luxury residential development with cinematic storytelling, immersive scroll experiences, and sophisticated animations. Sets the bar for premium real estate presentation.</p>
+                        <div class="inspiration-tags">
+                            <span class="tag">Cinematic</span>
+                            <span class="tag">Scroll Effects</span>
+                            <span class="tag">Luxury</span>
+                        </div>
+                        <a href="https://111w57.com/" target="_blank" class="inspiration-link">Visit Site →</a>
+                    </div>
+                </div>
+
+                <div class="inspiration-card">
+                    <div class="inspiration-header">
+                        <h5>HG Construction</h5>
+                        <div class="inspiration-url">hgconstruction.co.uk</div>
+                    </div>
+                    <div class="inspiration-body">
+                        <p>UK construction company with clean layouts, strong project showcases, and professional B2B positioning. Great reference for balancing technical credibility with visual appeal.</p>
+                        <div class="inspiration-tags">
+                            <span class="tag">UK Market</span>
+                            <span class="tag">B2B Focus</span>
+                            <span class="tag">Professional</span>
+                        </div>
+                        <a href="https://www.hgconstruction.co.uk/" target="_blank" class="inspiration-link">Visit Site →</a>
+                    </div>
+                </div>
+
+                <div class="inspiration-card">
+                    <div class="inspiration-header">
+                        <h5>DTRE</h5>
+                        <div class="inspiration-url">dtre.com</div>
+                    </div>
+                    <div class="inspiration-body">
+                        <p>Commercial real estate advisory with refined aesthetics, intuitive navigation, and polished micro-interactions. Demonstrates how to present complex services with clarity.</p>
+                        <div class="inspiration-tags">
+                            <span class="tag">Refined</span>
+                            <span class="tag">Micro-interactions</span>
+                            <span class="tag">Commercial</span>
+                        </div>
+                        <a href="https://dtre.com/" target="_blank" class="inspiration-link">Visit Site →</a>
+                    </div>
+                </div>
+
+                <div class="inspiration-card">
+                    <div class="inspiration-header">
+                        <h5>DHK Architects</h5>
+                        <div class="inspiration-url">dhk.co.za</div>
+                    </div>
+                    <div class="inspiration-body">
+                        <p>South African architecture practice with sophisticated project grids, elegant hover states, and refined typography. Balances minimalism with comprehensive content.</p>
+                        <div class="inspiration-tags">
+                            <span class="tag">Project Grids</span>
+                            <span class="tag">Hover Effects</span>
+                            <span class="tag">Sophisticated</span>
+                        </div>
+                        <a href="https://www.dhk.co.za/" target="_blank" class="inspiration-link">Visit Site →</a>
+                    </div>
+                </div>
+
+                <div class="inspiration-card">
+                    <div class="inspiration-header">
+                        <h5>Storey Project</h5>
+                        <div class="inspiration-url">storeyproject.com</div>
+                    </div>
+                    <div class="inspiration-body">
+                        <p>Construction company with dynamic project presentations, engaging scroll animations, and strong brand identity. Excellent example of contemporary construction web design.</p>
+                        <div class="inspiration-tags">
+                            <span class="tag">Dynamic</span>
+                            <span class="tag">Animations</span>
+                            <span class="tag">Brand Identity</span>
+                        </div>
+                        <a href="https://www.storeyproject.com/" target="_blank" class="inspiration-link">Visit Site →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <h4>Our Approach</h4>
+                <p>These examples provide a foundation, but your website will be distinctly Element BC — reflecting your unique brand values, project excellence, and commitment to craftsmanship. We'll blend the best contemporary practices with your specific needs to create something memorable and effective.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-num">04</div>
+                <h2 class="section-title">Project Timeline</h2>
+            </div>
+            <p>Timeline varies based on chosen option. See investment section for specific durations.</p>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-title">Option 1 Timeline (3–4 Weeks)</div>
+                    <div class="timeline" style="margin: 0;">
+                        <div class="timeline-item">
+                            <span class="timeline-phase">Discovery &amp; Kickoff</span>
+                            <div class="timeline-right">
+                                <span class="timeline-badge">Week 1</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-phase">Design &amp; Development</span>
+                            <div class="timeline-right">
+                                <span class="timeline-badge">Weeks 1–3</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-phase">Testing &amp; Refinement</span>
+                            <div class="timeline-right">
+                                <span class="timeline-badge">Week 3–4</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <span class="timeline-phase">Launch</span>
+                            <div class="timeline-right">
+                                <span class="timeline-badge">Week 4</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-card">
+                    <div class="col-title">Option 2 Timeline (5–7 Weeks)</div>
+                    <div class="timeline" style="margin: 0;">
+                        <div class="timeline-item">
+                            <span class="timeline-phase">Discovery &amp; Kickoff</span>
+                            <div class="timeline-right">
+                                <span class="timeline-badge">Week 1</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-phase">Wireframes &amp; Mockups</span>
+                            <div class="timeline-right">
+                                <span class="timeline-badge">Weeks 2–3</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-phase">Development</span>
+                            <div class="timeline-right">
+                                <span class="timeline-badge">Weeks 4–6</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <span class="timeline-phase">Testing &amp; Launch</span>
+                            <div class="timeline-right">
+                                <span class="timeline-badge">Week 7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>Note:</strong> Timeline assumes prompt feedback and content provision. Any delays in approvals or content delivery may extend the schedule.
+            </div>
+        </div>
+    </div>
+
+    <!-- Investment -->
+    <div class="container">
+        <div class="investment-section">
+            <div class="investment-header">
+                <h2>Investment &amp; Options</h2>
+                <p>Two comprehensive packages to suit your needs</p>
+            </div>
+
+            <div class="options-grid">
+                <div class="option-card">
+                    <div class="option-title">Option 1</div>
+                    <div class="option-name">Streamlined Design &amp; Build</div>
+                    <div class="option-price">£4,500</div>
+                    <div class="option-timeline">3–4 weeks delivery</div>
+                    <ul class="option-features">
+                        <li>5–6 custom designed pages</li>
+                        <li>Design based on brand guidelines</li>
+                        <li>Built directly in Webflow</li>
+                        <li>Page-by-page review process</li>
+                        <li>Reasonable revisions included</li>
+                        <li>Fully responsive design</li>
+                        <li>Legal pages included</li>
+                        <li>Google Analytics &amp; Search Console</li>
+                        <li>Training videos provided</li>
+                    </ul>
+                    <div class="option-divider"></div>
+                    <p style="font-size: 0.8rem; color: var(--grey-500); margin: 0;">Ideal for projects where you trust the design process and want to move quickly.</p>
+                </div>
+                <div class="option-card">
+                    <div class="option-title">Option 2</div>
+                    <div class="option-name">Full Design Process</div>
+                    <div class="option-price">£7,000</div>
+                    <div class="option-timeline">5–7 weeks delivery</div>
+                    <ul class="option-features">
+                        <li>Everything in Option 1, plus:</li>
+                    </ul>
+                    <div class="option-divider"></div>
+                    <div class="option-extra-title">Additional Design Phase</div>
+                    <ul class="option-features">
+                        <li>Comprehensive wireframing</li>
+                        <li>Mood boards for visual direction</li>
+                        <li>High-fidelity Figma mockups</li>
+                        <li>Device-specific mockups</li>
+                        <li>Style guide documentation</li>
+                        <li>Full design approval before build</li>
+                    </ul>
+                    <div class="option-divider"></div>
+                    <p style="font-size: 0.8rem; color: var(--grey-500); margin: 0;">Ideal if you want to see and approve the complete design before development begins.</p>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey-500); margin: 0 0 1rem;">Payment Schedule</h3>
+
+            <div class="payment-grid">
+                <div class="payment-card">
+                    <div class="payment-percent">50%</div>
+                    <div class="payment-milestone">Due upon acceptance to secure your project slot</div>
+                </div>
+                <div class="payment-card">
+                    <div class="payment-percent">50%</div>
+                    <div class="payment-milestone">Due upon completion, prior to website launch</div>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 0.8rem; color: var(--grey-500); margin-top: 1.5rem;">All prices exclude VAT. Domain registration and premium stock photography are not included.</p>
+        </div>
+    </div>
+
+    <!-- What's Included -->
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-num">06</div>
+                <h2 class="section-title">What's Included</h2>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Throughout the Project</h4>
+                    <ul class="feature-list">
+                        <li>Direct communication as your single point of contact</li>
+                        <li>Regular progress updates and milestone reviews</li>
+                        <li>Reasonable revisions (1–2 rounds per page)</li>
+                        <li>Collaborative design process</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4>Post-Launch Support</h4>
+                    <ul class="feature-list">
+                        <li>Training videos for content management</li>
+                        <li>30-day bug-fix warranty</li>
+                        <li>Handover of all credentials and assets</li>
+                        <li>Documentation for ongoing maintenance</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 1.5rem;">
+                <h4>The Review Process</h4>
+                <p>I create page by page, and after each page we have a short review together to ensure my design aligns with your vision. This includes reasonable revisions — I trust I'll get it right first time, or at the very least after one or two tweaks based on your feedback.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms -->
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-num">07</div>
+                <h2 class="section-title">Terms &amp; Conditions</h2>
+            </div>
+
+            <div class="terms-grid">
+                <div class="term-card">
+                    <h4>Project Scope</h4>
+                    <p>This proposal covers the deliverables explicitly listed. Additional requirements identified during the project will be quoted separately and require written approval.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Client Responsibilities</h4>
+                    <ul>
+                        <li>Timely provision of content, images, and feedback</li>
+                        <li>Designation of a single point of contact</li>
+                        <li>Review and approval within 5 business days</li>
+                        <li>Access to brand guidelines and assets</li>
+                    </ul>
+                </div>
+                <div class="term-card">
+                    <h4>Intellectual Property</h4>
+                    <p>Upon final payment, all custom work transfers to Element BC. I retain the right to showcase the completed work in my portfolio.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Confidentiality</h4>
+                    <p>All information shared during this project will be treated as confidential and will not be disclosed to third parties without written consent.</p>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>Validity:</strong> This proposal is valid for 30 days from the date of issue. Pricing and availability may change after this period.
+            </div>
+        </div>
+    </div>
+
+    <!-- Next Steps -->
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-num">08</div>
+                <h2 class="section-title">Next Steps</h2>
+            </div>
+            <p>I'm excited about the opportunity to work with Element BC on this project.</p>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <div class="step-title">Review</div>
+                    <div class="step-desc">Let me know if you have any questions about this proposal</div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-title">Choose</div>
+                    <div class="step-desc">Select Option 1 or Option 2 based on your needs</div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-title">Deposit</div>
+                    <div class="step-desc">Submit the 50% deposit to secure your slot</div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <div class="step-title">Kickoff</div>
+                    <div class="step-desc">We'll schedule a discovery session to begin</div>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 1.5rem;">
+                <h4>Ready to get started?</h4>
+                <p>Let's create a website that's unique and tailored to Element BC's brand — something you'll be proud to share with clients and prospects.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p class="footer-message">I look forward to helping Element BC establish a digital presence that truly reflects the quality of your work.</p>
+        
+        <div class="footer-divider"></div>
+        
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-label">Phone</div>
+                <div class="contact-value"><a href="tel:+353879153664">+353 87 915 3664</a></div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-label">Email</div>
+                <div class="contact-value"><a href="mailto:hello@mattcodes.io">hello@mattcodes.io</a></div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-label">Website</div>
+                <div class="contact-value"><a href="https://matt-codes.webflow.io" target="_blank">matt-codes.webflow.io</a></div>
+            </div>
+        </div>
+
+        <div class="footer-brand">
+            <div class="footer-logo">Matt Codes</div>
+            <div class="footer-link"><a href="https://matt-codes.webflow.io">matt-codes.webflow.io</a></div>
+        </div>
+    </div>
+</body>
+</html>
